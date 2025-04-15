@@ -3,6 +3,10 @@
   color: var(--primary-color);
 }
 
+.title-hover:hover {
+  color: var(--primary-color);
+}
+
 .button {
   background: var(--primary-color);
   cursor: pointer;
