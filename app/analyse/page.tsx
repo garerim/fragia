@@ -11,30 +11,61 @@ import {
   Crosshair,  
   Move, 
   Shield, 
-  UserX 
+  UserX,
+  Loader2
 } from "lucide-react";
 import { AnimatedList } from "@/components/ui/animated-list";
 import GameEvent from "@/components/game-event";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
 
 export default function AnalysePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    if (file && file.name.endsWith(".demo")) {
+    if (file && file.name.endsWith(".dem")) {
       setSelectedFile(file);
     } else if (file) {
-      alert("Veuillez sélectionner un fichier .demo");
+      alert("Veuillez sélectionner un fichier .dem");
       setSelectedFile(null);
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (selectedFile) {
-      // Will handle the upload logic in the future
-      console.log("File selected:", selectedFile.name);
+      // Simulate processing with progress updates
+      setIsProcessing(true);
+      setProgress(0);
+      
+      const simulateProgress = () => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            setIsProcessing(false);
+            return 100;
+          }
+          
+          // Calculer un petit incrément pour atteindre 100% en ~30 secondes
+          // ~60 incréments avec 500ms de délai = ~30 secondes
+          const increment = Math.random() * 1.5 + 0.5; // Entre 0.5 et 2 par étape
+          const newProgress = Math.min(prev + increment, 100);
+          
+          if (newProgress < 100) {
+            setTimeout(simulateProgress, 500);
+          } else {
+            setTimeout(() => setIsProcessing(false), 500);
+          }
+          
+          return newProgress;
+        });
+      };
+      
+      setTimeout(simulateProgress, 500);
     }
   };
 
@@ -53,10 +84,10 @@ export default function AnalysePage() {
     setIsDragging(false);
     
     const file = e.dataTransfer.files?.[0] || null;
-    if (file && file.name.endsWith(".demo")) {
+    if (file && file.name.endsWith(".dem")) {
       setSelectedFile(file);
     } else if (file) {
-      alert("Veuillez sélectionner un fichier .demo");
+      alert("Veuillez sélectionner un fichier .dem");
     }
   };
 
@@ -134,11 +165,11 @@ export default function AnalysePage() {
                 <p className="mb-4 text-gray-300">
                   {selectedFile 
                     ? `Fichier sélectionné: ${selectedFile.name}` 
-                    : "Glissez un fichier .demo ici ou cliquez pour parcourir"}
+                    : "Glissez un fichier .dem ici ou cliquez pour parcourir"}
                 </p>
                 <input
                   type="file"
-                  accept=".demo"
+                  accept=".dem"
                   onChange={handleFileChange}
                   className="hidden"
                   id="demo-file"
@@ -185,6 +216,30 @@ export default function AnalysePage() {
           </Card>
         </div>
       </main>
+
+      {/* Processing Dialog */}
+      <Dialog open={isProcessing} onOpenChange={(open) => setIsProcessing(open)}>
+        <DialogContent className="sm:max-w-md bg-[#2a3140] border-[#3a4150] [&>button]:hidden">
+          <DialogHeader>
+            <DialogTitle className="text-white">Analyse en cours</DialogTitle>
+            <DialogDescription className="text-gray-300">
+              Analyse de {selectedFile?.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center py-6 space-y-6">
+            <div className="flex justify-center">
+              <Loader2 className="h-10 w-10 text-[#FF7700] animate-spin" />
+            </div>
+            <div className="w-full space-y-2">
+              <Progress value={progress} className="h-2" />
+              <p className="text-center text-sm text-gray-300">{Math.round(progress)}%</p>
+            </div>
+            <p className="text-center text-sm text-gray-300">
+              Veuillez patienter pendant l'analyse de votre démo...
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 
