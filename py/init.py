@@ -5,7 +5,11 @@ import glob
 
 # base path
 path = os.getcwd()
+print(f"Path : {path}")
 fileType = ".dem"
+split_path = path.split('\\')
+if split_path[-1] != "py" :
+    path = os.path.join(os.getcwd(), "py")
 
 def main():
     parser = argparse.ArgumentParser(description="Parser de démos CS:GO/CS2") 
