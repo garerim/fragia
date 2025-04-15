@@ -15,6 +15,10 @@ def main():
 
     args = parser.parse_args()
 
+    file_parts = args.name.split(".")
+    if len(file_parts) > 1:
+        args.name = file_parts[0]
+
     #Nom + . 
     full_filename= args.name+args.pattern
     # Path + nom du fichier pour le dossier
