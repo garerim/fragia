@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Créer le dossier uploads s'il n'existe pas
-    const uploadsDir = path.join(process.cwd(), 'uploads');
+    const uploadsDir = path.join(process.cwd(), 'py');
     try {
       await mkdir(uploadsDir, { recursive: true });
     } catch (error) {

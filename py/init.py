@@ -2,7 +2,7 @@ from awpy import Demo
 import os
 
 # base path
-path = "c:/Dev/Doranco/2024-2025/2025 04 - Avril/py/"
+path = os.getcwd()
 fileType = ".dem"
 testFile = "testCTDemo"
 proPlayFile = "ence-vs-b8-m"
@@ -11,7 +11,7 @@ proPlayRound2 = proPlayFile+"2-nuke"
 proPlayRound3 = proPlayFile+"3-ancient"
 
 # Create and parse demo
-chosen_round = testFile
+chosen_round = proPlayRound3
 chosen_folder = path+chosen_round
 chosen_path = path+chosen_round
 
