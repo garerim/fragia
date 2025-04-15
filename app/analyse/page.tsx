@@ -129,7 +129,7 @@ export default function AnalysePage() {
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
             >
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center h-full">
                 <UploadCloud className={`w-12 h-12 ${isDragging ? 'text-[#00CEDD]' : 'text-gray-400'} mb-4 transition-colors`} />
                 <p className="mb-4 text-gray-300">
                   {selectedFile 
