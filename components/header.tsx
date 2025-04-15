@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import "../public/style/components/header.css";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +15,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FF7700] to-[#FFAA00]">
-              FRAGIA
+              <img src="/assets/images/logo.webp" alt="Logo" className="logo" />
             </span>
           </Link>
 
@@ -36,10 +37,13 @@ export function Header() {
 
           {/* Desktop buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10">
+            <Button
+              variant="outline"
+              className="border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10"
+            >
               Connexion
             </Button>
-            <Button className="bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold">
+            <Button className="bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold button">
               S'inscrire
             </Button>
           </div>
@@ -79,20 +83,35 @@ export function Header() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden py-4 space-y-4 border-t border-[#2a3140]">
-            <Link href="#" className="block py-2 text-gray-300 hover:text-white">
+            <Link
+              href="#"
+              className="block py-2 text-gray-300 hover:text-white"
+            >
               Fonctionnalités
             </Link>
-            <Link href="#" className="block py-2 text-gray-300 hover:text-white">
+            <Link
+              href="#"
+              className="block py-2 text-gray-300 hover:text-white"
+            >
               Tarifs
             </Link>
-            <Link href="#" className="block py-2 text-gray-300 hover:text-white">
+            <Link
+              href="#"
+              className="block py-2 text-gray-300 hover:text-white"
+            >
               Ressources
             </Link>
-            <Link href="#" className="block py-2 text-gray-300 hover:text-white">
+            <Link
+              href="#"
+              className="block py-2 text-gray-300 hover:text-white"
+            >
               Blog
             </Link>
             <div className="flex flex-col space-y-2 pt-2">
-              <Button variant="outline" className="w-full border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10">
+              <Button
+                variant="outline"
+                className="w-full border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10"
+              >
                 Connexion
               </Button>
               <Button className="w-full bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold">
@@ -104,4 +123,4 @@ export function Header() {
       </div>
     </header>
   );
-} 
+}

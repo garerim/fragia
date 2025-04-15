@@ -1,0 +1,9 @@
+@import "../variables.css";
+.title {
+  color: var(--primary-color);
+}
+
+.button {
+  background: var(--primary-color);
+  cursor: pointer;
+}
