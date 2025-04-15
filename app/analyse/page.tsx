@@ -197,24 +197,28 @@ export default function AnalysePage() {
               onClick={() => fileInputRef.current?.click()}
             >
               {eventSelected ? (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="flex items-center mb-4">
-                    <div style={{ backgroundColor: eventSelected.color }} className="rounded-full bg-white p-2">
-                      <eventSelected.icon className="w-12 h-12 text-white" />
+                <div className="flex flex-col items-center justify-center h-full p-4">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 mb-6 w-full max-w-2xl">
+                    <div style={{ backgroundColor: eventSelected.color }} className="rounded-full p-3 shadow-lg">
+                      <eventSelected.icon className="w-10 h-10 text-white" />
                     </div>
-                    <div>
+                    <div className="text-center sm:text-left">
                       <h3 className="text-2xl font-bold text-white">{eventSelected.name}</h3>
-                      <p className="text-gray-300">{eventSelected.time}</p>
+                      <p className="text-gray-400 text-sm">{eventSelected.time}</p>
                     </div>
                   </div>
-                  <p className="text-gray-300">{eventSelected.description}</p>
-                  <p className="text-gray-300">{eventSelected.details}</p>
-                  <Button
+                  
+                  <div className="bg-[#232836] rounded-xl p-6 mb-6 w-full max-w-2xl shadow-inner">
+                    <p className="text-white text-lg font-medium mb-4">{eventSelected.description}</p>
+                    <p className="text-gray-300 leading-relaxed">{eventSelected.details}</p>
+                  </div>
+                  
+                  {/* <Button
                     onClick={() => setEventSelected(null)}
-                    className="mt-4 bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold"
+                    className="mt-4 bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold px-6"
                   >
                     Retour
-                  </Button>
+                  </Button> */}
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center h-full">
@@ -313,3 +317,4 @@ export default function AnalysePage() {
     </div >
   );
 } 
+
