@@ -1,26 +1,185 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.5rem;
+  /* CS2 style theme - light mode */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 10%);
+  --card: hsl(0 0% 98%);
+  --card-foreground: hsl(0 0% 10%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 10%);
+  --primary: hsl(24 100% 50%); /* CS2 orange */
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(200 100% 40%); /* CS2 blue */
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(0 0% 96%);
+  --muted-foreground: hsl(0 0% 45%);
+  --accent: hsl(200 100% 40%); /* Match secondary */
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 100% 50%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(0 0% 90%);
+  --input: hsl(0 0% 90%);
+  --ring: hsl(24 100% 50%); /* Match primary */
+  --chart-1: hsl(24 100% 50%); /* Orange */
+  --chart-2: hsl(200 100% 40%); /* Blue */
+  --chart-3: hsl(187 100% 42%); /* Cyan */
+  --chart-4: hsl(220 13% 18%); /* Dark blue-gray */
+  --chart-5: hsl(0 0% 15%); /* Nearly black */
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(0 0% 10%);
+  --sidebar-primary: hsl(24 100% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(200 100% 40%);
+  --sidebar-accent-foreground: hsl(0 0% 100%);
+  --sidebar-border: hsl(0 0% 90%);
+  --sidebar-ring: hsl(24 100% 50%);
+}
+
+.dark {
+  /* CS2 style theme - dark mode */
+  --background: hsl(220 13% 18%); /* CS2 dark blue-gray */
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(0 0% 10%); /* Darker */
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(0 0% 10%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(24 100% 50%); /* CS2 orange */
+  --primary-foreground: hsl(0 0% 10%);
+  --secondary: hsl(187 100% 42%); /* CS2 cyan/turquoise */
+  --secondary-foreground: hsl(0 0% 10%);
+  --muted: hsl(0 0% 15%);
+  --muted-foreground: hsl(0 0% 65%);
+  --accent: hsl(187 100% 42%); /* Match secondary */
+  --accent-foreground: hsl(0 0% 10%);
+  --destructive: hsl(0 100% 50%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(0 0% 25%);
+  --input: hsl(0 0% 25%);
+  --ring: hsl(24 100% 50%); /* Match primary */
+  --chart-1: hsl(24 100% 50%); /* Orange */
+  --chart-2: hsl(187 100% 42%); /* Cyan */
+  --chart-3: hsl(200 100% 40%); /* Blue */
+  --chart-4: hsl(0 0% 70%); /* Light gray */
+  --chart-5: hsl(0 0% 90%); /* Lighter gray */
+  --sidebar: hsl(0 0% 10%);
+  --sidebar-foreground: hsl(0 0% 98%);
+  --sidebar-primary: hsl(24 100% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 10%);
+  --sidebar-accent: hsl(187 100% 42%);
+  --sidebar-accent-foreground: hsl(0 0% 10%);
+  --sidebar-border: hsl(0 0% 25%);
+  --sidebar-ring: hsl(24 100% 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 1rem));
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary); /* CS2 orange hsl(24 100% 50%) */
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(24 100% 45%); /* Slightly darker orange on hover */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--muted);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--primary); /* CS2 orange hsl(24 100% 50%) */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(24 100% 45%); /* Slightly darker orange on hover */
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
