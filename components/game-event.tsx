@@ -7,6 +7,7 @@ export interface Item {
   icon: LucideIcon;
   color: string;
   time: string;
+  details: string;
 }
 
 export default function GameEvent({ name, description, icon: Icon, color, time, onClickEvent }: Item & { onClickEvent: () => void }) {
