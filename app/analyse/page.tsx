@@ -36,36 +36,58 @@ export default function AnalysePage() {
     }
   };
 
-  const handleUpload = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (selectedFile) {
-      // Simulate processing with progress updates
+      // Démarrer le traitement
       setIsProcessing(true);
       setProgress(0);
       
-      const simulateProgress = () => {
-        setProgress(prev => {
-          if (prev >= 100) {
-            setIsProcessing(false);
-            return 100;
-          }
-          
-          // Calculer un petit incrément pour atteindre 100% en ~30 secondes
-          // ~60 incréments avec 500ms de délai = ~30 secondes
-          const increment = Math.random() * 1.5 + 0.5; // Entre 0.5 et 2 par étape
-          const newProgress = Math.min(prev + increment, 100);
-          
-          if (newProgress < 100) {
-            setTimeout(simulateProgress, 500);
-          } else {
-            setTimeout(() => setIsProcessing(false), 500);
-          }
-          
-          return newProgress;
+      try {
+        // Créer un FormData pour envoyer le fichier
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        
+        // Simuler l'avancement pendant l'upload
+        const progressInterval = setInterval(() => {
+          setProgress(prev => {
+            const increment = Math.random() * 1.5 + 0.5; // Entre 0.5 et 2 par étape
+            return Math.min(prev + increment, 95); // On s'arrête à 95% pour la simulation
+          });
+        }, 500);
+        
+        // Appeler notre API d'upload
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
         });
-      };
-      
-      setTimeout(simulateProgress, 500);
+        
+        // Arrêter la simulation de progression
+        clearInterval(progressInterval);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erreur lors de l\'upload');
+        }
+        
+        // Upload terminé avec succès
+        setProgress(100);
+        
+        // Afficher la réussite
+        const data = await response.json();
+        console.log('Fichier uploadé avec succès:', data);
+        
+        // Fermer la fenêtre de progression après un court délai
+        setTimeout(() => {
+          setIsProcessing(false);
+          // Ici, vous pourriez rediriger vers une page de résultats d'analyse
+          // ou mettre à jour l'UI pour afficher les résultats
+        }, 1000);
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de l\'upload du fichier');
+        setIsProcessing(false);
+      }
     }
   };
 
