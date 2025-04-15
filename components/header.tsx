@@ -15,7 +15,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#FF7700] to-[#FFAA00]">
-              <img src="/assets/images/logo.webp" alt="Logo" className="logo" />
+              <img src="/assets/images/logo.png" alt="Logo" className="logo" />
             </span>
           </Link>
 
