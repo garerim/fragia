@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import "../public/style/components/hero.css";
 
 export function Hero() {
   return (
@@ -30,47 +31,61 @@ export function Hero() {
       <div className="container mx-auto relative z-10 flex flex-col items-center text-center px-4">
         {/* Badge CS2 */}
         <div className="mb-4 bg-[#FF7700]/10 backdrop-blur-sm px-4 py-1 rounded-full border border-[#FF7700]/20">
-          <span className="text-[#FF7700] font-medium">Powered by CS2 Analytics</span>
+          <span className="text-[#FF7700] font-medium">
+            Powered by CS2 Analytics
+          </span>
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#FF7700] to-[#FFAA00]">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#FF7700] to-[#FFAA00] title">
             FRAGIA
           </span>
           <span className="block md:inline md:ml-2 text-white">Analytics</span>
         </h1>
 
         <p className="text-xl md:text-2xl max-w-2xl mb-6 text-gray-300">
-          Analyse vos parties de CS2 avec l&apos;IA pour améliorer vos performances et atteindre votre plein potentiel.
+          Analyse vos parties de CS2 avec l&apos;IA pour améliorer vos
+          performances et atteindre votre plein potentiel.
         </p>
 
         {/* Stats mini avec style HUD CS2 */}
         <div className="flex justify-center gap-8 mb-10 p-3 rounded-lg bg-black/20 backdrop-blur-sm border border-white/10">
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-[#00CEDD]">+45%</span>
+            <span className="title text-2xl font-bold text-[#00CEDD]">
+              +45%
+            </span>
             <span className="text-sm text-gray-400">Précision</span>
           </div>
           <div className="flex flex-col items-center border-l border-r border-white/10 px-8">
-            <span className="text-2xl font-bold text-[#00CEDD]">-30%</span>
+            <span className="text-2xl font-bold text-[#00CEDD] title">
+              -30%
+            </span>
             <span className="text-sm text-gray-400">Erreurs</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-[#00CEDD]">+5</span>
+            <span className="text-2xl font-bold text-[#00CEDD] title">+5</span>
             <span className="text-sm text-gray-400">Ranks</span>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/analyse">
-            <Button size="lg" className="bg-gradient-to-r from-[#FF7700] to-[#FFAA00] hover:from-[#FF7700] hover:to-[#FF9900] text-black font-bold">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-[#FF7700] to-[#FFAA00] hover:from-[#FF7700] hover:to-[#FF9900] text-black font-bold button"
+            >
               Analyser ma partie
             </Button>
           </Link>
-          <Button size="lg" variant="outline" className="border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10">
+          <Button
+            size="lg"
+            variant="outline"
+            className="border-[#00CEDD] text-[#00CEDD] hover:bg-[#00CEDD]/10"
+          >
             En savoir plus
           </Button>
         </div>
       </div>
     </div>
   );
-} 
+}
