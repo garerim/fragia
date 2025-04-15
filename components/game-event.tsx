@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 
-interface Item {
+export interface Item {
   name: string;
   description: string;
   icon: LucideIcon;
@@ -9,7 +9,7 @@ interface Item {
   time: string;
 }
 
-export default function GameEvent({ name, description, icon: Icon, color, time }: Item) {
+export default function GameEvent({ name, description, icon: Icon, color, time, onClickEvent }: Item & { onClickEvent: () => void }) {
   return (
     <figure
       className={cn(
@@ -21,6 +21,7 @@ export default function GameEvent({ name, description, icon: Icon, color, time }
         // dark styles
         "transform-gpu dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]",
       )}
+      onClick={onClickEvent}
     >
       <div className="flex flex-row items-center gap-2">
         <div

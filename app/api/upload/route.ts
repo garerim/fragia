@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile } from 'fs/promises';
 import path from 'path';
 import { mkdir } from 'fs/promises';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execPromise = promisify(exec);
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,15 +38,31 @@ export async function POST(request: NextRequest) {
     // Écrire le fichier sur le serveur
     await writeFile(filePath, buffer);
 
-    // Simuler un traitement d'analyse (dans un cas réel, vous pourriez démarrer un job de traitement ici)
-    // Pour l'instant, nous retournons simplement une réponse de succès
-    
-    return NextResponse.json({ 
-      success: true,
-      fileName,
-      message: 'Fichier uploadé avec succès',
-      // Dans une implémentation réelle, vous pourriez retourner un ID de job ou d'autres informations
-    });
+    // Exécuter le script Python init.py avec le nom du fichier
+    try {
+      const pythonScriptPath = path.join(process.cwd(), 'py', 'init.py');
+      const { stdout, stderr } = await execPromise(`python ${pythonScriptPath} -n ${fileName}`);
+      
+      console.log('Résultat de l\'exécution Python:', stdout);
+      if (stderr) {
+        console.error('Erreurs Python:', stderr);
+      }
+      
+      return NextResponse.json({ 
+        success: true,
+        fileName,
+        message: 'Fichier uploadé et analysé avec succès',
+        pythonOutput: stdout
+      });
+    } catch (pythonError: any) {
+      console.error('Erreur lors de l\'exécution du script Python:', pythonError);
+      return NextResponse.json({
+        success: true,
+        fileName,
+        message: 'Fichier uploadé avec succès mais erreur lors de l\'analyse',
+        error: pythonError.message
+      }, { status: 200 });
+    }
   } catch (error) {
     console.error('Erreur lors de l\'upload:', error);
     return NextResponse.json(
