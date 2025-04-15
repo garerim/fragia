@@ -125,6 +125,7 @@ export default function AnalysePage() {
       time: "Round 5",
       icon: ThumbsUp,
       color: "#00C9A7",
+      details: "Le joueur a effectué une action correcte en positionnant son équipe parfaitement pour le rush. Cette action a permis de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Mauvaise Décision",
@@ -132,6 +133,7 @@ export default function AnalysePage() {
       time: "Round 8",
       icon: ThumbsDown,
       color: "#FFB800",
+      details: "Le joueur a effectué une action incorrecte en pénétrant dans la zone de défense adverse sans avoir de raison valable de le faire. Cette action a permis à l'équipe adverse de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Grosse Erreur",
@@ -139,6 +141,7 @@ export default function AnalysePage() {
       time: "Round 12",
       icon: AlertTriangle,
       color: "#FF3D71",
+      details: "Le joueur a effectué une action incorrecte en pénétrant dans la zone de défense adverse sans avoir de raison valable de le faire. Cette action a permis à l'équipe adverse de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Bon Tir",
@@ -146,6 +149,7 @@ export default function AnalysePage() {
       time: "Round 15",
       icon: Crosshair,
       color: "#1E86FF",
+      details: "Le joueur a effectué une action correcte en positionnant son équipe parfaitement pour le rush. Cette action a permis de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Problème de Mouvement",
@@ -153,6 +157,7 @@ export default function AnalysePage() {
       time: "Round 17",
       icon: Move,
       color: "#9747FF",
+      details: "Le joueur a effectué une action incorrecte en pénétrant dans la zone de défense adverse sans avoir de raison valable de le faire. Cette action a permis à l'équipe adverse de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Bonne Défense",
@@ -160,6 +165,7 @@ export default function AnalysePage() {
       time: "Round 19",
       icon: Shield,
       color: "#47A3FF",
+      details: "Le joueur a effectué une action correcte en positionnant son équipe parfaitement pour le rush. Cette action a permis de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
     {
       name: "Élimination précoce",
@@ -167,6 +173,7 @@ export default function AnalysePage() {
       time: "Round 22",
       icon: UserX,
       color: "#FF5274",
+      details: "Le joueur a effectué une action correcte en positionnant son équipe parfaitement pour le rush. Cette action a permis de gagner la première étape du plan de défense et de mettre sous pression l'équipe adverse.",
     },
   ];
 
@@ -179,7 +186,9 @@ export default function AnalysePage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
           <Card className="p-6 lg:col-span-7 bg-[#2a3140] border-[#3a4150] shadow-lg flex flex-col">
-            <h2 className="text-xl font-semibold mb-4 text-white">Importer un fichier .demo</h2>
+            <h2 className="text-xl font-semibold mb-4 text-white">
+              {eventSelected ? 'Analyse d\'un événement' : 'Importer un fichier .demo'}
+            </h2>
             <div
               className={`border-2 flex-1 border-dashed ${isDragging ? 'border-[#00CEDD] bg-[#00CEDD]/5' : 'border-[#3a4150]'} rounded-lg p-8 text-center transition-colors`}
               onDragOver={handleDragOver}
@@ -190,13 +199,16 @@ export default function AnalysePage() {
               {eventSelected ? (
                 <div className="flex flex-col items-center justify-center h-full">
                   <div className="flex items-center mb-4">
-                    <eventSelected.icon className="w-12 h-12 text-white mr-4" style={{ backgroundColor: eventSelected.color }} />
+                    <div style={{ backgroundColor: eventSelected.color }} className="rounded-full bg-white p-2">
+                      <eventSelected.icon className="w-12 h-12 text-white" />
+                    </div>
                     <div>
                       <h3 className="text-2xl font-bold text-white">{eventSelected.name}</h3>
                       <p className="text-gray-300">{eventSelected.time}</p>
                     </div>
                   </div>
                   <p className="text-gray-300">{eventSelected.description}</p>
+                  <p className="text-gray-300">{eventSelected.details}</p>
                   <Button
                     onClick={() => setEventSelected(null)}
                     className="mt-4 bg-[#FF7700] hover:bg-[#FF9900] text-black font-bold"
@@ -245,21 +257,24 @@ export default function AnalysePage() {
           <Card className="p-6 lg:col-span-3 bg-[#2a3140] border-[#3a4150] shadow-lg">
             <h2 className="text-xl font-semibold mb-4 text-white">Événements de jeu</h2>
             {selectedFile ? (
-              <div className="h-64 overflow-y-auto">
-                {showAnalyse ? (
-                  <div className="overflow-y-auto pr-2 h-[440px]">
-                    <AnimatedList className="w-full">
-                      {notifications.map((item, idx) => (
-                        <GameEvent onClickEvent={() => setEventSelected(item)} {...item} key={idx} />
-                      ))}
-                    </AnimatedList>
-                  </div>
-                ) : (
-                  <p className="text-gray-400">
-                    Les événements de jeu s'afficheront ici une fois le fichier analysé.
-                  </p>
-                )}
-              </div>
+              <>
+                {
+                  showAnalyse ? (
+                    <div className="overflow-y-auto pr-2 h-[440px]" >
+                      <AnimatedList className="w-full">
+                        {notifications.map((item, idx) => (
+                          <GameEvent onClickEvent={() => setEventSelected(item)} {...item} key={idx} />
+                        ))}
+                      </AnimatedList>
+                    </div>
+                  ) : (
+                    <div className="h-64 overflow-y-auto">
+                      <p className="text-gray-400">
+                        Les événements de jeu s'afficheront ici une fois le fichier analysé.
+                      </p>
+                    </div>
+                  )}
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full">
                 <p className="text-gray-400">
@@ -272,7 +287,7 @@ export default function AnalysePage() {
       </main >
 
       {/* Processing Dialog */}
-      <Dialog open={isProcessing} onOpenChange={(open) => setIsProcessing(open)
+      < Dialog open={isProcessing} onOpenChange={(open) => setIsProcessing(open)
       }>
         <DialogContent className="sm:max-w-md bg-[#2a3140] border-[#3a4150] [&>button]:hidden">
           <DialogHeader>
