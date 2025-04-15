@@ -11,30 +11,83 @@ import {
   Crosshair,  
   Move, 
   Shield, 
-  UserX 
+  UserX,
+  Loader2
 } from "lucide-react";
 import { AnimatedList } from "@/components/ui/animated-list";
 import GameEvent from "@/components/game-event";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Progress } from "@/components/ui/progress";
 
 export default function AnalysePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-    if (file && file.name.endsWith(".demo")) {
+    if (file && file.name.endsWith(".dem")) {
       setSelectedFile(file);
     } else if (file) {
-      alert("Veuillez sélectionner un fichier .demo");
+      alert("Veuillez sélectionner un fichier .dem");
       setSelectedFile(null);
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (selectedFile) {
-      // Will handle the upload logic in the future
-      console.log("File selected:", selectedFile.name);
+      // Démarrer le traitement
+      setIsProcessing(true);
+      setProgress(0);
+      
+      try {
+        // Créer un FormData pour envoyer le fichier
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        
+        // Simuler l'avancement pendant l'upload
+        const progressInterval = setInterval(() => {
+          setProgress(prev => {
+            const increment = Math.random() * 1.5 + 0.5; // Entre 0.5 et 2 par étape
+            return Math.min(prev + increment, 95); // On s'arrête à 95% pour la simulation
+          });
+        }, 500);
+        
+        // Appeler notre API d'upload
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        // Arrêter la simulation de progression
+        clearInterval(progressInterval);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Erreur lors de l\'upload');
+        }
+        
+        // Upload terminé avec succès
+        setProgress(100);
+        
+        // Afficher la réussite
+        const data = await response.json();
+        console.log('Fichier uploadé avec succès:', data);
+        
+        // Fermer la fenêtre de progression après un court délai
+        setTimeout(() => {
+          setIsProcessing(false);
+          // Ici, vous pourriez rediriger vers une page de résultats d'analyse
+          // ou mettre à jour l'UI pour afficher les résultats
+        }, 1000);
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de l\'upload du fichier');
+        setIsProcessing(false);
+      }
     }
   };
 
@@ -53,10 +106,10 @@ export default function AnalysePage() {
     setIsDragging(false);
     
     const file = e.dataTransfer.files?.[0] || null;
-    if (file && file.name.endsWith(".demo")) {
+    if (file && file.name.endsWith(".dem")) {
       setSelectedFile(file);
     } else if (file) {
-      alert("Veuillez sélectionner un fichier .demo");
+      alert("Veuillez sélectionner un fichier .dem");
     }
   };
 
@@ -134,11 +187,11 @@ export default function AnalysePage() {
                 <p className="mb-4 text-gray-300">
                   {selectedFile 
                     ? `Fichier sélectionné: ${selectedFile.name}` 
-                    : "Glissez un fichier .demo ici ou cliquez pour parcourir"}
+                    : "Glissez un fichier .dem ici ou cliquez pour parcourir"}
                 </p>
                 <input
                   type="file"
-                  accept=".demo"
+                  accept=".dem"
                   onChange={handleFileChange}
                   className="hidden"
                   id="demo-file"
@@ -185,6 +238,30 @@ export default function AnalysePage() {
           </Card>
         </div>
       </main>
+
+      {/* Processing Dialog */}
+      <Dialog open={isProcessing} onOpenChange={(open) => setIsProcessing(open)}>
+        <DialogContent className="sm:max-w-md bg-[#2a3140] border-[#3a4150] [&>button]:hidden">
+          <DialogHeader>
+            <DialogTitle className="text-white">Analyse en cours</DialogTitle>
+            <DialogDescription className="text-gray-300">
+              Analyse de {selectedFile?.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center py-6 space-y-6">
+            <div className="flex justify-center">
+              <Loader2 className="h-10 w-10 text-[#FF7700] animate-spin" />
+            </div>
+            <div className="w-full space-y-2">
+              <Progress value={progress} className="h-2" />
+              <p className="text-center text-sm text-gray-300">{Math.round(progress)}%</p>
+            </div>
+            <p className="text-center text-sm text-gray-300">
+              Veuillez patienter pendant l'analyse de votre démo...
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 

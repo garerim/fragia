@@ -20,20 +20,17 @@ export function Header() {
           </Link>
 
           {/* Desktop navigation */}
-          {/* <nav className="hidden md:flex items-center space-x-6">
-            <Link href="#" className="text-gray-300 hover:text-white">
-              Fonctionnalités
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link href="/analyse" className="text-gray-300 hover:text-white">
+              Analyse
             </Link>
-            <Link href="#" className="text-gray-300 hover:text-white">
+            <Link href="/evolution" className="text-gray-300 hover:text-white">
+              Évolution
+            </Link>
+            <Link href="/tarifs" className="text-gray-300 hover:text-white">
               Tarifs
             </Link>
-            <Link href="#" className="text-gray-300 hover:text-white">
-              Ressources
-            </Link>
-            <Link href="#" className="text-gray-300 hover:text-white">
-              Blog
-            </Link>
-          </nav> */}
+          </nav>
 
           {/* Desktop buttons */}
           <div className="hidden md:flex items-center space-x-4">
