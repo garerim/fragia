@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { CpuArchitecture } from "./ui/cpu-architecture";
 
 export function CTA() {
   return (
@@ -16,6 +17,8 @@ export function CTA() {
         <p className="text-xl max-w-2xl mx-auto mb-10 text-gray-300">
           Rejoignez des milliers de joueurs qui améliorent leurs performances grâce à l'analyse IA de leurs parties CS2.
         </p>
+
+        <CpuArchitecture width="50%" height="50%" className="mx-auto" />
         
         <Button size="lg" className="bg-gradient-to-r from-[#FF7700] to-[#FFAA00] hover:from-[#FF7700] hover:to-[#FF9900] text-black font-bold px-8">
           Commencer gratuitement
